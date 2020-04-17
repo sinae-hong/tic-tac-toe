@@ -49,6 +49,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      reversed: false,
     };
   }
 
@@ -97,15 +98,11 @@ class Game extends React.Component {
       );
     });
 
-    let status;
-    if (winner)
-    {
-      status = 'Winner: ' + winner;
-    }
-    else
-    {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-    }
+    const status = winner ? 
+      ('Winner: ' + winner) : 
+      ('Next player: ' + (this.state.xIsNext ? 'X' : 'O'));
+
+    const order = this.state.reversed ? 'descending' : 'ascending';
 
     return (
       <div className="game">
@@ -117,7 +114,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.setState({reversed: !this.state.reversed})}>{order}</button>
+          <ol>{this.state.reversed ? moves.reverse() : moves}</ol>
         </div>
       </div>
     );
